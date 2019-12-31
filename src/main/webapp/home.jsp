@@ -7,6 +7,11 @@
 <title>HomePage</title>
 </head>
 <body>
-<h3>Sucessfully Logged in</h3>
+<h3>Sucessfully Logged in As Manager</h3>
+<form action="ActionServlet" method="Post">  
+    <input type="submit" name="action" value="AddUser">
+    <input type="submit" name="action" value="ViewUserInformation">
+</form>
+
 </body>
 </html>
