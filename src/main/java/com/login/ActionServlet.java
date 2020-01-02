@@ -1,6 +1,8 @@
 package com.login;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +28,7 @@ public class ActionServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter("action");
 		
-		System.out.println("user has pressed "+action +"button");
+		System.out.println("user has pressed "+action +" button");
 		
 		if ("AddUser".equals(action)) {
 		    // Invoke FirstServlet's job here.
@@ -34,7 +36,12 @@ public class ActionServlet extends HttpServlet {
 			response.sendRedirect("adduser.jsp");
 			
 		} else if ("ViewUserInformation".equals(action)) {
-		    response.sendRedirect("userinfo.jsp");
+		   // response.sendRedirect("userinfo.jsp");
+			
+			RequestDispatcher rd = request.getRequestDispatcher("ViewUsers");
+			rd.forward(request,response);
+		} else if ("LogOut".equals(action)) {
+		    response.sendRedirect("login.jsp");
 		}
 		
 	}

@@ -49,7 +49,9 @@ public class Login extends HttpServlet {
 			System.out.println("query response is " + resultSet.next());
 
 			if (resultSet.first()) {
-				response.sendRedirect("home.jsp");
+				request.setAttribute("username", userName);
+				request.getRequestDispatcher("home.jsp").forward(request, response);
+				
 			} else {
 				response.sendRedirect("error.jsp");
 			}

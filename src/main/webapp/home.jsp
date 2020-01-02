@@ -7,10 +7,14 @@
 <title>HomePage</title>
 </head>
 <body>
+<h3>Hello, 
+<%= (String) request.getAttribute("username") %>
+</h3>
 <h3>Sucessfully Logged in As Manager</h3>
 <form action="ActionServlet" method="Post">  
     <input type="submit" name="action" value="AddUser">
     <input type="submit" name="action" value="ViewUserInformation">
+    <input type="submit" name="action" value="LogOut">
 </form>
 
 </body>
