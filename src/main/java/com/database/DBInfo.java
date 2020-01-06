@@ -20,7 +20,7 @@ public class DBInfo {
 			 * host); String port = System.getenv("MYSQL_SERVICE_PORT");
 			 * System.out.println("host name is "+ port);
 			 */
-
+//this is the comment
 			con = (ConnectionImpl) DriverManager.getConnection("jdbc:mysql://localhost:3306/user", "ankitgupta",
 					"ankit123@");
 
