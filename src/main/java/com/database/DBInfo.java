@@ -1,5 +1,7 @@
 package com.database;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
@@ -15,19 +17,21 @@ public class DBInfo {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 
 			String host = System.getenv("OPENSHIFT_MYSQL_DB_HOST");
-			String port =System.getenv("OPENSHIFT_MYSQL_DB_PORT");
-			
-			
+			String port = System.getenv("OPENSHIFT_MYSQL_DB_PORT");
 
-			// con = (ConnectionImpl)
-			// DriverManager.getConnection("jdbc:mysql://localhost:3306/user", "ankitgupta",
-			// "ankit123@");
+			con = (ConnectionImpl) DriverManager.getConnection("jdbc:mysql://localhost:3306/user", "ankitgupta",
+					"ankit123@");
 
-			con = (ConnectionImpl) DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/user",
-					"ankitgupta", "ankit123@");
+			// con = (ConnectionImpl) DriverManager.getConnection("jdbc:mysql://" + host +
+			// ":" + port + "/user",
+			// "ankitgupta", "ankit123@");
 
 			// DriverManager.getConnection("jdbc:mysql://"+host+":3306/user", "ankitgupta",
 			// "ankit123@");
+
+			System.out.println("system hostname is " + InetAddress.getLocalHost().getHostName().toString());
+
+			System.out.println("jdbc:mysql://" + host + ":" + port);
 			System.out.println("Connection Established Successfull and the DATABASE NAME IS:"
 					+ con.getMetaData().getDatabaseProductName());
 
@@ -40,6 +44,9 @@ public class DBInfo {
 
 		} catch (SQLException exception) {
 			System.out.println("Got an exception = " + exception.getMessage());
+		} catch (UnknownHostException e) {
+
+			e.printStackTrace();
 		}
 
 		return con;
