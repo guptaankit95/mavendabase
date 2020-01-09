@@ -16,33 +16,34 @@ public class DBInfo {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 
-			//System.getenv("OPENSHIFT_MYSQL_DB_HOST");
-			String host =InetAddress.getLocalHost().getHostName(); 
-					
-			String port = System.getenv("OPENSHIFT_MYSQL_DB_PORT");
+			// System.getenv("OPENSHIFT_MYSQL_DB_HOST");
+			String host = System.getenv("LOCALHOST_SERVICE_HOST");
 
-			
-			
+			String port = System.getenv("LOCALHOST_SERVICE_PORT");
 
-			// con = (ConnectionImpl)
-			// DriverManager.getConnection("jdbc:mysql://localhost:3306/user", "ankitgupta",
-			// "ankit123@");
+			String localhost = "localhost";
+			String localport = "3306";
 
-			con = (ConnectionImpl) DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/user",
-					"ankitgupta", "ankit123@");
+			if (InetAddress.getLocalHost().getHostName().equals("ITEM-S32234")) {
 
-			// DriverManager.getConnection("jdbc:mysql://"+host+":3306/user", "ankitgupta",
-			// "ankit123@");
+				System.out.println("this application is running on " + localhost);
+				con = (ConnectionImpl) DriverManager.getConnection(
+						"jdbc:mysql://" + localhost + ":" + localport + "/user", "ankitgupta", "ankit123@");
 
-			System.out.println("system hostname is " + InetAddress.getLocalHost().getHostName());
-			
+			} else {
+
+				System.out.println("this application is running on remote server ");
+				System.out.println("host name is " + System.getenv("LOCALHOST_SERVICE_HOST"));
+				System.out.println("port name is " + System.getenv("LOCALHOST_SERVICE_PORT"));
+				con = (ConnectionImpl) DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/user",
+						"ankitgupta", "ankit123@");
+
+			}
 
 			System.out.println("jdbc:mysql://" + host + ":" + port);
 			System.out.println("Connection Established Successfull and the DATABASE NAME IS:"
 					+ con.getMetaData().getDatabaseProductName());
 
-			System.out.println("host name is " + System.getenv("LOCALHOST_SERVICE_HOST"));
-			System.out.println("port name is " + System.getenv("LOCALHOST_SERVICE_PORT"));
 			System.out.println("after executing host name is " + con.getHostPortPair());
 
 		} catch (ClassNotFoundException notFoundException) {
