@@ -33,33 +33,46 @@ public class Login extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String userName = request.getParameter("username");
-		String password = request.getParameter("password");
 
 		DBInfo dbInfo = new DBInfo();
 		ConnectionImpl con = dbInfo.getConnection();
 
 		try {
 
-			String query = "select * from tbl_user where username = '" + userName + "' and password = '" + password
-					+ "'";
+			String query = "select * from tbl_user where username = '" + userName + "'";
 			System.out.println(query);
+
 			PreparedStatement statement = con.prepareStatement(query);
 			ResultSet resultSet = statement.executeQuery();
 
-			System.out.println("query response is " + resultSet.next());
+			// System.out.println("query response is " + resultSet.getString("password"));
 
-			if (resultSet.first()) {
-				request.setAttribute("username", userName);
-				request.getRequestDispatcher("home.jsp").forward(request, response);
-				
-			} else {
-				response.sendRedirect("error.jsp");
+			while (resultSet.next()) {
+
+				String username = resultSet.getString("username");
+				System.out.println("username is " + username);
+
+				String role = resultSet.getString("role");
+				System.out.println("user role is " + role);
+
+				if ((username.equals(userName)) && (role.equals("manager"))) {
+					request.setAttribute("username", userName);
+					request.getRequestDispatcher("managerView.jsp").forward(request, response);
+				} else if ((username.equals(userName)) && (role.equals("team_member"))) {
+
+					request.setAttribute("username", userName);
+					request.setAttribute("role", role);
+					request.getRequestDispatcher("userView.jsp").forward(request, response);
+				}
+
+				else {
+					response.sendRedirect("error.jsp");
+				}
 			}
 
 		} catch (SQLException exception) {
 			System.out.println("got an Exception = " + exception.getMessage());
 		}
-
 	}
 
 }

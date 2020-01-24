@@ -16,7 +16,6 @@ public class DBInfo {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 
-			// System.getenv("OPENSHIFT_MYSQL_DB_HOST");
 			String host = System.getenv("LOCALHOST_SERVICE_HOST");
 
 			String port = System.getenv("LOCALHOST_SERVICE_PORT");
@@ -24,9 +23,12 @@ public class DBInfo {
 			String localhost = "localhost";
 			String localport = "3306";
 
-			if (InetAddress.getLocalHost().getHostName().equals("ITEM-S32234")) {
+			String localIpAddress = InetAddress.getByName("localhost").getHostAddress();
+			
+			//check if database is on local server or remote server
+			if (InetAddress.getLocalHost().getHostName().equals("ITEM-S32234") || (localIpAddress == "127.0.0.1")) {
 
-				System.out.println("this application is running on " + localhost);
+				System.out.println("this application is running on " + localIpAddress);
 				con = (ConnectionImpl) DriverManager.getConnection(
 						"jdbc:mysql://" + localhost + ":" + localport + "/user", "ankitgupta", "ankit123@");
 
@@ -40,20 +42,14 @@ public class DBInfo {
 
 			}
 
-			System.out.println("jdbc:mysql://" + host + ":" + port);
-			System.out.println("Connection Established Successfull and the DATABASE NAME IS:"
-					+ con.getMetaData().getDatabaseProductName());
-
 			System.out.println("after executing host name is " + con.getHostPortPair());
 
 		} catch (ClassNotFoundException notFoundException) {
-			System.out.println("host name is " + System.getenv("LOCALHOST_SERVICE_HOST"));
-			System.out.println("port name is " + System.getenv("LOCALHOST_SERVICE_PORT"));
+
 			System.out.println(notFoundException.getMessage());
 
 		} catch (SQLException exception) {
-			System.out.println("host name is " + System.getenv("LOCALHOST_SERVICE_HOST"));
-			System.out.println("port name is " + System.getenv("LOCALHOST_SERVICE_PORT"));
+
 			System.out.println("Got an exception = " + exception.getMessage());
 		} catch (UnknownHostException e) {
 
