@@ -62,7 +62,7 @@ public class Login extends HttpServlet {
 
 					request.setAttribute("username", userName);
 					request.setAttribute("role", role);
-					request.getRequestDispatcher("userView.jsp").forward(request, response);
+					request.getRequestDispatcher("emp/userView.jsp").forward(request, response);
 				}
 
 				else {
