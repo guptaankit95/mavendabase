@@ -5,22 +5,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>User HomePage</title>
-<script>
-$(document).ready(function () {
-    $("#type").change(function () {
-        var val = $(this).val();
-        if (val == "defect") {
-            $("#task").html("<option value='createDefect'>Create Defect</option><option value='updateDefect'>Update Defect</option><option value='deleteDefect'>Delete Defect</option>");
-        } else if (val == "changeRequest") {
-            $("#task").html("<option value='createChangeRequest'>Create CR</option><option value='updateChangeRequest'>Update CR</option><option value='deleteChangeRequest'>Delete CR</option>");
-        } else if (val == "Other") {
-            $("#task").html("<textarea rows="4" cols="50"></textarea>");
-        } else if (val == "item0") {
-            $("#task").html("<option value=''>--select one--</option>");
-        }
-    });
-});
+<script type="text/javascript">
+	
+<%@include file="../js/dropDown.js"%>
+	
 </script>
+
 
 
 </head>
@@ -35,25 +25,40 @@ $(document).ready(function () {
 		<%=(String) request.getAttribute("role")%>
 	</h3>
 
-	<form action="UserActivity" method="post">
+	<form action="UserActivity" method="post" id="userActionForm">
 
-		Activity List: <select name="item" id="type">
+		Activity List: <select name="item" id="activityList"
+			onchange="dropDown()">
 			<option value="select">--Select an Item--</option>
 			<option value="defect">Defect</option>
 			<option value="changeRequest">Change Request</option>
-			<option value="other">Other</option> 
-			</select>
-		User Action:
-			<select id="task">
-				<option value="">-- select one --</option>
+
+			<!--  	<option value="other">Other</option> -->
+		</select> User Action: <select id="task" onchange="secondDropDown()">
+			<option value="select">-- select one --</option>
 		</select>
+
+		<button type="button" value="proceed" onclick="showFormByID()">Proceed</button>
+		<button type="submit" value="Submit">Submit</button>
+	</form>
+<br/><br/>
+	<form action="#" id="createform" style="display: none">
+		Defect Number: <input type="text" /><br>
+		<br> Defect Description: <input type="text" /><br>
+		<br> Defect Starting Date: <input type="text" /><br>
+		<br> Time Booking: <input type="text"  /><br>
+		<br> Initial Days Planned: <input type="text" /><br>
+		<br>
+		<button type="submit" value="submit">Create Defect</button>
+	</form>
+	<form action="#" id="updateform" style="display: none">
+		Third name: <input type="text" name="fname"><br> Fourth
+		name: <input type="text" name="lname"><br>
+	</form>
+	<form action="#" id="closeform" style="display: none">
+		Fifth name: <input type="text" name="fname"><br> Sixth
+		name: <input type="text" name="lname"><br>
 	</form>
 
-	<%
-		String st = request.getParameter("item");
-		if (st != null) {
-			out.println("You have selected: " + st);
-		}
-	%>
 </body>
 </html>
